@@ -21,7 +21,11 @@ function App() {
           <NavbarBrand href="/">Ứng dụng quản lý nhân sự v1.0</NavbarBrand>
         </div>
       </Navbar>
-      <StaffList staffs={staffs} onStaffSelect={onStaffSelect} />
+      <StaffList
+        staffs={staffs}
+        onStaffSelect={onStaffSelect}
+        selectedStaff={selectedStaff}
+      />
       <div className="container">
         <div className="row">
           <RenderStaff staff={selectedStaff} />

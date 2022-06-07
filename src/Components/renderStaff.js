@@ -22,7 +22,15 @@ function RenderStaff(props) {
         </Card>
       </div>
     );
-  } else return <div>Bấm vào tên nhân viên để xem thông tin.</div>;
+  } else
+    return (
+      <div
+        className="col-12 col-md-6 col-lg-4"
+        style={{ fontWeight: "bold", textAlign: "left", marginTop: "10px" }}
+      >
+        Bấm vào tên nhân viên để xem thông tin.
+      </div>
+    );
 }
 
 export default RenderStaff;
