@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Footer(props) {
   return (
-    <div style={{ background: "#87CEFA" }} className="footer">
+    <div className="footer">
       <div className="container">
         <div className="row align-items-center  text-left">
           <div className="col">

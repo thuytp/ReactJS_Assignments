@@ -20,7 +20,8 @@ function Payroll(props) {
             <div>Số ngày làm thêm: {staff.overTime}</div>
           </CardText>
           <CardFooter>
-            Lương: {staff.salaryScale * 3000000 + staff.overTime * 200000}
+            Lương:{" "}
+            {(staff.salaryScale * 3000000 + staff.overTime * 200000).toFixed(0)}
           </CardFooter>
         </Card>
       </div>
