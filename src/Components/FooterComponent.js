@@ -6,7 +6,7 @@ function Footer(props) {
     <div className="footer">
       <div className="container">
         <div className="row align-items-center  text-left">
-          <div className="col">
+          <div className="col-12 col-md-5 offset-1">
             <h5>Our Address</h5>
             <address>
               121, Clear Water Bay Road
@@ -23,7 +23,7 @@ function Footer(props) {
               <a href="mailto:confusion@food.net">confusion@food.net</a>
             </address>
           </div>
-          <div className="col">
+          <div className="col-12 col-md-5 offset-1">
             <div>
               <a
                 className="btn btn-social-icon btn-google"

@@ -13,7 +13,7 @@ function StaffList(props) {
           <Link to={`/nhanvien/${staff.id}`}>
             <CardImg src={staff.image} />
           </Link>
-          <CardTitle>{staff.name}</CardTitle>
+          <h5>{staff.name}</h5>
         </Card>
       </div>
     );
