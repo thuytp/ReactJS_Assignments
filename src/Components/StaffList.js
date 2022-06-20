@@ -1,23 +1,19 @@
-import { Card, CardBody, CardText, CardTitle } from "reactstrap";
-import { useState } from "react";
+import { Card, CardImg, CardText, CardTitle } from "reactstrap";
+import { Link } from "react-router-dom";
 
 function StaffList(props) {
   const staffName = props.staffs.map((staff) => {
     return (
       <div
         key={staff.id}
-        className="col-12 col-md-6 col-lg-4"
+        className="col-6 col-md-4 col-lg-2"
         style={{ marginTop: "10px" }}
       >
-        <Card onClick={() => props.onStaffSelect(staff)}>
-          <CardTitle
-            style={{
-              marginTop: "10px",
-              fontWeight: staff === props.selectedStaff ? "bold" : "normal",
-            }}
-          >
-            {staff.name}
-          </CardTitle>
+        <Card>
+          <Link to={`/nhanvien/${staff.id}`}>
+            <CardImg src={staff.image} />
+          </Link>
+          <CardTitle>{staff.name}</CardTitle>
         </Card>
       </div>
     );

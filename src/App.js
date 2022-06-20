@@ -1,36 +1,34 @@
 import React from "react";
-import { useState } from "react";
 import "./App.css";
-import { Navbar, NavbarBrand } from "reactstrap";
-import { STAFFS } from "./shared/staffs";
+import { DEPARTMENTS, STAFFS } from "./shared/staffs";
 import StaffList from "./Components/StaffList";
-import RenderStaff from "./Components/renderStaff";
+import StaffId from "./Components/RenderStaffComponent";
+import Header from "./Components/HeaderComponent";
+import Footer from "./Components/FooterComponent";
+import { Route, Routes, useParams } from "react-router-dom";
+import Department from "./Components/DepartmentComponent";
+import Payroll from "./Components/PayrollComponent";
 
 function App() {
-  const [selectedStaff, setSelectedStaff] = useState();
-
-  function onStaffSelect(staff) {
-    setSelectedStaff(staff);
-  }
-
   const staffs = STAFFS;
+  const departments = DEPARTMENTS;
+
   return (
     <div className="App">
-      <Navbar dark color="primary">
-        <div className="container">
-          <NavbarBrand href="/">Ứng dụng quản lý nhân sự v1.0</NavbarBrand>
-        </div>
-      </Navbar>
-      <StaffList
-        staffs={staffs}
-        onStaffSelect={onStaffSelect}
-        selectedStaff={selectedStaff}
-      />
-      <div className="container">
-        <div className="row">
-          <RenderStaff staff={selectedStaff} />
-        </div>
-      </div>
+      <Header />
+
+      <Routes>
+        <Route path="/" element={<StaffList staffs={staffs} />} />
+        <Route
+          path="/phongban"
+          element={<Department departments={departments} />}
+        ></Route>
+        <Route path="/bangluong" element={<Payroll staffs={staffs} />} />
+        <Route exact path="/nhanvien" element={<StaffList staffs={staffs} />} />
+        <Route path="/nhanvien/:id" element={<StaffId staffs={staffs} />} />
+      </Routes>
+
+      <Footer />
     </div>
   );
 }
