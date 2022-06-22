@@ -7,19 +7,24 @@ function StaffList(props) {
       <div
         key={staff.id}
         className="col-6 col-md-4 col-lg-2"
-        style={{ marginTop: "10px" }}
+        style={{ margin: "10px 0px" }}
       >
         <Card>
           <Link to={`/nhanvien/${staff.id}`}>
             <CardImg src={staff.image} />
           </Link>
-          <h5>{staff.name}</h5>
+          <h5 className="text-center">{staff.name}</h5>
         </Card>
       </div>
     );
   });
   return (
     <div className="container">
+      <div className="row">
+        {" "}
+        <h2 style={{ margin: "15px 0px 0px 15px" }}>Nhân Viên</h2>
+      </div>
+      <hr />
       <div className="row"> {staffName}</div>
     </div>
   );
