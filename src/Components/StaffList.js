@@ -21,10 +21,16 @@ function StaffList(props) {
   return (
     <div className="container">
       <div className="row">
-        {" "}
-        <h2 style={{ margin: "15px 0px 0px 15px" }}>Nhân Viên</h2>
+        <div className="col-10 col-md-6 col-lg-6">
+          <h2>Nhân Viên</h2>
+        </div>
+
+        <div className="col-10 col-md-6 col-lg-6">
+          <input type="text"></input>
+          <button color="primary">Tìm</button>
+        </div>
+        <hr />
       </div>
-      <hr />
       <div className="row"> {staffName}</div>
     </div>
   );

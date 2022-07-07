@@ -5,7 +5,7 @@ import StaffList from "./Components/StaffList";
 import StaffId from "./Components/RenderStaffComponent";
 import Header from "./Components/HeaderComponent";
 import Footer from "./Components/FooterComponent";
-import { Route, Routes, useParams } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Department from "./Components/DepartmentComponent";
 import Payroll from "./Components/PayrollComponent";
 
