@@ -1,7 +1,28 @@
-import { Card, CardImg, CardText, CardTitle } from "reactstrap";
+import { Card, CardImg, Form } from "reactstrap";
 import { Link } from "react-router-dom";
+import { useState, useRef } from "react";
 
 function StaffList(props) {
+  const inputRef = useRef();
+
+  // const [searchInput, setSearchInput] = useState("");
+
+  // const changeHandler = (event) => {
+  //   setSearchInput(event.target.value);
+  // };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const enteredInput = inputRef.current.value;
+    console.log(enteredInput);
+    const filtered = props.staffs.filter((staff) =>
+      staff.name.toLowerCase().includes(enteredInput.toLowerCase())
+    );
+    props.onSearch(filtered);
+    inputRef.current.value = "";
+    // setSearchInput("");
+  };
+
   const staffName = props.staffs.map((staff) => {
     return (
       <div
@@ -18,6 +39,7 @@ function StaffList(props) {
       </div>
     );
   });
+
   return (
     <div className="container">
       <div className="row">
@@ -25,10 +47,15 @@ function StaffList(props) {
           <h2>Nhân Viên</h2>
         </div>
 
-        <div className="col-10 col-md-6 col-lg-6">
-          <input type="text"></input>
-          <button color="primary">Tìm</button>
-        </div>
+        <Form onSubmit={handleSubmit} className="col-10 col-md-6 col-lg-6">
+          <input
+            type="text"
+            // onChange={changeHandler}
+            // value={searchInput}
+            ref={inputRef}
+          ></input>
+          <button type="submit">Tìm</button>
+        </Form>
         <hr />
       </div>
       <div className="row"> {staffName}</div>
