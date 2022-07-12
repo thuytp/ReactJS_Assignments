@@ -1,20 +1,21 @@
-import { Card, CardImg, Form } from "reactstrap";
+import { Card, CardImg, Button, Form } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useState, useRef } from "react";
+import AddStaff from "./AddStaff";
 
 function StaffList(props) {
   const inputRef = useRef();
 
-  // const [searchInput, setSearchInput] = useState("");
+  const [formStatus, setFormStatus] = useState(false);
 
-  // const changeHandler = (event) => {
-  //   setSearchInput(event.target.value);
-  // };
+  const toggleForm = () => {
+    setFormStatus(!formStatus);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const enteredInput = inputRef.current.value;
-    console.log(enteredInput);
+
     const filtered = props.staffs.filter((staff) =>
       staff.name.toLowerCase().includes(enteredInput.toLowerCase())
     );
@@ -43,22 +44,24 @@ function StaffList(props) {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-10 col-md-6 col-lg-6">
+        <div className="col-10 col-md-6 col-lg-5">
           <h2>Nhân Viên</h2>
         </div>
-
-        <Form onSubmit={handleSubmit} className="col-10 col-md-6 col-lg-6">
-          <input
-            type="text"
-            // onChange={changeHandler}
-            // value={searchInput}
-            ref={inputRef}
-          ></input>
-          <button type="submit">Tìm</button>
+        <div className="col-10 col-md-6 col-lg-2">
+          <Button onClick={toggleForm}>
+            <span className="fa fa-plus fa-lg" />
+          </Button>
+        </div>
+        <Form onSubmit={handleSubmit} className="col-10 col-md-6 col-lg-5">
+          <input type="text" ref={inputRef}></input>
+          <Button type="submit" className="bg-primary">
+            Tìm
+          </Button>
         </Form>
         <hr />
       </div>
       <div className="row"> {staffName}</div>
+      <AddStaff isFormOpen={formStatus} toggleForm={toggleForm} />
     </div>
   );
 }
