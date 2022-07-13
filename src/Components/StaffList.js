@@ -1,30 +1,9 @@
-import { Card, CardImg, Button, Form } from "reactstrap";
+import { Card, CardImg, Form, Button } from "reactstrap";
 import { Link } from "react-router-dom";
-import { useState, useRef } from "react";
-import AddStaff from "./AddStaff";
+import React, { useRef, useState } from "react";
 
-function StaffList(props) {
-  const inputRef = useRef();
-
-  const [formStatus, setFormStatus] = useState(false);
-
-  const toggleForm = () => {
-    setFormStatus(!formStatus);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const enteredInput = inputRef.current.value;
-
-    const filtered = props.staffs.filter((staff) =>
-      staff.name.toLowerCase().includes(enteredInput.toLowerCase())
-    );
-    props.onSearch(filtered);
-    inputRef.current.value = "";
-    // setSearchInput("");
-  };
-
-  const staffName = props.staffs.map((staff) => {
+const StaffName = (props) =>
+  props.list.map((staff) => {
     return (
       <div
         key={staff.id}
@@ -41,6 +20,22 @@ function StaffList(props) {
     );
   });
 
+function StaffList(props) {
+  const searchInputRef = useRef();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const enteredSearchInput = searchInputRef.current.value;
+
+    const filtered = props.staffs.filter((staff) =>
+      staff.name.toLowerCase().includes(enteredSearchInput.toLowerCase())
+    );
+
+    props.onSearch(filtered);
+
+    searchInputRef.current.value = "";
+  };
+
   return (
     <div className="container">
       <div className="row">
@@ -48,20 +43,22 @@ function StaffList(props) {
           <h2>Nhân Viên</h2>
         </div>
         <div className="col-10 col-md-6 col-lg-2">
-          <Button onClick={toggleForm}>
+          <Button onClick={props.toggleForm}>
             <span className="fa fa-plus fa-lg" />
           </Button>
         </div>
         <Form onSubmit={handleSubmit} className="col-10 col-md-6 col-lg-5">
-          <input type="text" ref={inputRef}></input>
+          <input type="text" ref={searchInputRef}></input>
           <Button type="submit" className="bg-primary">
             Tìm
           </Button>
         </Form>
         <hr />
       </div>
-      <div className="row"> {staffName}</div>
-      <AddStaff isFormOpen={formStatus} toggleForm={toggleForm} />
+      <div className="row">
+        {" "}
+        <StaffName list={props.search ? props.search : props.staffs} />
+      </div>
     </div>
   );
 }

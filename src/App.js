@@ -9,13 +9,52 @@ import { Route, Routes } from "react-router-dom";
 import Department from "./Components/DepartmentComponent";
 import Payroll from "./Components/PayrollComponent";
 import { useState } from "react";
+import AddStaff from "./Components/AddStaff";
 
 function App() {
-  const [staffs, setStaffs] = useState(STAFFS);
   const departments = DEPARTMENTS;
-  const onSearch = (filtered) => {
-    setStaffs(filtered);
+
+  const [formStatus, setFormStatus] = useState(false);
+
+  const toggleForm = () => {
+    setFormStatus(!formStatus);
   };
+
+  const [search, setSearch] = useState();
+  const [staffs, setStaffs] = useState(STAFFS);
+
+  const addStaffHandler = (
+    staffName,
+    staffDob,
+    staffSalaryScale,
+    staffStartDate,
+    staffDepartment,
+    staffAnnualLeave
+  ) => {
+    setStaffs((prevStaffList) => {
+      return (
+        [...prevStaffList],
+        {
+          id: Math.random(),
+          name: staffName,
+          doB: staffDob,
+          salaryScale: staffSalaryScale,
+          startDate: staffStartDate,
+          department: staffDepartment,
+          annualLeave: staffAnnualLeave,
+          overTime: "",
+          salary: "",
+          image: "/assets/images/alberto.png",
+        }
+      );
+    });
+  };
+
+  const onSearch = (filtered) => {
+    setSearch(filtered);
+  };
+
+  console.log(search);
   return (
     <div className="App">
       <Header />
@@ -23,7 +62,14 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<StaffList staffs={staffs} onSearch={onSearch} />}
+          element={
+            <StaffList
+              staffs={staffs}
+              search={search}
+              onSearch={onSearch}
+              toggleForm={toggleForm}
+            />
+          }
         />
         <Route
           path="/phongban"
@@ -33,10 +79,23 @@ function App() {
         <Route
           exact
           path="/nhanvien"
-          element={<StaffList staffs={staffs} onSearch={onSearch} />}
+          element={
+            <StaffList
+              staffs={staffs}
+              search={search}
+              onSearch={onSearch}
+              toggleForm={toggleForm}
+            />
+          }
         />
         <Route path="/nhanvien/:id" element={<StaffId staffs={staffs} />} />
       </Routes>
+
+      <AddStaff
+        onAddStaff={addStaffHandler}
+        formStatus={formStatus}
+        toggleForm={toggleForm}
+      />
 
       <Footer />
     </div>
