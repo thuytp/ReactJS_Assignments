@@ -9,7 +9,7 @@ import { Route, Routes } from "react-router-dom";
 import Department from "./Components/DepartmentComponent";
 import Payroll from "./Components/PayrollComponent";
 import { useState } from "react";
-import AddStaff from "./Components/AddStaff";
+import { AddStaff } from "./Components/AddStaff";
 
 function App() {
   const departments = DEPARTMENTS;
@@ -32,8 +32,9 @@ function App() {
     staffAnnualLeave
   ) => {
     setStaffs((prevStaffList) => {
-      return (
-        [...prevStaffList],
+      toggleForm();
+      return [
+        ...prevStaffList,
         {
           id: Math.random(),
           name: staffName,
@@ -45,8 +46,8 @@ function App() {
           overTime: "",
           salary: "",
           image: "/assets/images/alberto.png",
-        }
-      );
+        },
+      ];
     });
   };
 
@@ -54,7 +55,6 @@ function App() {
     setSearch(filtered);
   };
 
-  console.log(search);
   return (
     <div className="App">
       <Header />

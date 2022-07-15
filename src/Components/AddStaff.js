@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import {
   Col,
   Label,
@@ -7,195 +7,162 @@ import {
   ModalHeader,
   Row,
   Button,
+  FormGroup,
+  Form,
+  Input,
 } from "reactstrap";
 import { Control, LocalForm, Errors } from "react-redux-form";
+import propTypes from "prop-types";
 
-const required = (val) => val && val.length;
-const isNumber = (val) => !isNaN(Number(val));
+export const AddStaff = (props) => {
+  const required = (val) => val && val.length;
+  const isNumber = (val) => !isNaN(Number(val));
 
-const AddStaff = (props) => {
-  const nameRef = useRef();
-  const dobRef = useRef();
-  const startDateRef = useRef();
-  const departmentRef = useRef();
-  const salaryScaleRef = useRef();
-  const annualLeaveRef = useRef();
+  const [nameInput, setNameInput] = useState("");
+  const [dobInput, setDobInput] = useState("");
+  const [startDateInput, setStartDateInput] = useState("");
+  const [departmentInput, setDepartmentInput] = useState("");
+  const [salaryInput, setSalaryInput] = useState("");
+  const [annuaLeaveInput, setAnnualLeaveInput] = useState("");
+
+  const nameInputHandler = (event) => {
+    setNameInput(event.target.value);
+  };
+
+  const dobInputHandler = (event) => {
+    setDobInput(event.target.value);
+  };
+
+  const startDateInputHandler = (event) => {
+    setStartDateInput(event.target.value);
+  };
+
+  const departmentInputHandler = (event) => {
+    setDepartmentInput(event.target.value);
+  };
+
+  const salaryInputHandler = (event) => {
+    setSalaryInput(event.target.value);
+  };
+
+  const annualLeaveInputHandler = (event) => {
+    setAnnualLeaveInput(event.target.value);
+  };
 
   const addStaffHandler = (e) => {
     e.preventDefault();
-    const enteredName = nameRef.current.value;
-    const enteredDob = dobRef.current.value;
-    const enteredStartDate = startDateRef.current.value;
-    const enteredDepartment = departmentRef.current.value;
-    const enteredSalaryScale = salaryScaleRef.current.value;
-    const enteredAnnualLeave = annualLeaveRef.current.value;
-
     props.onAddStaff(
-      enteredName,
-      enteredDob,
-      enteredStartDate,
-      enteredDepartment,
-      enteredSalaryScale,
-      enteredAnnualLeave
+      nameInput,
+      dobInput,
+      salaryInput,
+      startDateInput,
+      departmentInput,
+      annuaLeaveInput
     );
   };
 
   return (
-    <>
-      <Modal isOpen={props.formStatus} toggle={props.toggleForm}>
-        <ModalHeader>Thêm Nhân Viên</ModalHeader>
-        <hr />
-        <ModalBody></ModalBody>
-        <LocalForm onSubmit={addStaffHandler}>
-          <Row className="form-group">
-            <Label htmlFor="name" md="3">
+    <Modal isOpen={props.formStatus} toggle={props.toggleForm}>
+      <ModalHeader>Thêm Nhân Viên</ModalHeader>
+      <hr />
+      <ModalBody>
+        <Form onSubmit={addStaffHandler}>
+          <FormGroup row>
+            <Label htmlFor="name" md={3}>
               Tên
             </Label>
-            <Col md="9">
-              <Control.text
-                className="form-control"
+            <Col md={9}>
+              <Input
+                type="text"
                 id="name"
                 name="name"
-                ref={nameRef}
-                validators={{ required }}
-              />
-              <Errors
-                className="text-danger"
-                model=".lastname"
-                show="touched"
-                messages={{
-                  required: "Required",
-                }}
+                value={nameInput}
+                onChange={nameInputHandler}
               />
             </Col>
-          </Row>
-          <Row className="form-group">
-            <Label htmlFor="dob" md="3">
+          </FormGroup>
+          <FormGroup row>
+            <Label htmlFor="dob" md={3}>
               Ngày sinh
             </Label>
-            <Col md="9">
-              <Control.date
-                className="form-control"
+            <Col md={9}>
+              <Input
+                type="date"
                 id="dob"
                 name="dob"
                 placeholder="dd/mm/yyyy"
-                ref={dobRef}
-                validators={{ required }}
-              />
-              <Errors
-                className="text-danger"
-                model=".lastname"
-                show="touched"
-                messages={{
-                  required: "Required",
-                }}
+                value={dobInput}
+                onChange={dobInputHandler}
               />
             </Col>
-          </Row>
-          <Row className="form-group">
-            <Label htmlFor="startDate" md="3">
+          </FormGroup>
+          <FormGroup row>
+            <Label htmlFor="startDate" md={3}>
               Ngày vào công ty
             </Label>
-            <Col md="9">
-              <Control.date
-                className="form-control"
+            <Col md={9}>
+              <Input
+                type="date"
                 id="startDate"
                 name="startDate"
                 placeholder="dd/mm/yyyy"
-                ref={startDateRef}
-                validators={{ required }}
-              />
-              <Errors
-                className="text-danger"
-                model=".lastname"
-                show="touched"
-                messages={{
-                  required: "Required",
-                }}
+                value={startDateInput}
+                onChange={startDateInputHandler}
               />
             </Col>
-          </Row>
-          <Row className="form-group">
+          </FormGroup>
+          <FormGroup row>
             <Label htmlFor="department" md="3">
               Phòng ban
             </Label>
             <Col md="9">
-              <Control.select
-                className="form-control"
+              <Input
+                type="select"
                 id="department"
                 name="department"
-                ref={departmentRef}
-                validators={{ required }}
+                onChange={departmentInputHandler}
               >
                 <option>Sale</option>
                 <option>HR</option>
                 <option>Marketing</option>
                 <option>IT</option>
                 <option>Finance</option>
-              </Control.select>
-              <Errors
-                className="text-danger"
-                model=".lastname"
-                show="touched"
-                messages={{
-                  required: "Required",
-                }}
-              />
+              </Input>
             </Col>
-          </Row>
-          <Row className="form-group">
+          </FormGroup>
+          <FormGroup row>
             <Label htmlFor="salaryScale" md="3">
               Hệ số lương
             </Label>
             <Col md="9">
-              <Control.number
-                className="form-control"
+              <Input
+                type="number"
                 id="salaryScale"
                 name="salaryScale"
-                ref={salaryScaleRef}
-                validators={{ required, isNumber }}
-              />
-              <Errors
-                className="text-danger"
-                model=".lastname"
-                show="touched"
-                messages={{
-                  required: "Required",
-                  isNumber: "Must be a number",
-                }}
+                value={salaryInput}
+                onChange={salaryInputHandler}
               />
             </Col>
-          </Row>
-          <Row className="form-group">
+          </FormGroup>
+          <FormGroup row>
             <Label htmlFor="annualLeave" md="3">
               Số ngày nghỉ còn lại
             </Label>
             <Col md="9">
-              <Control.number
-                className="form-control"
+              <Input
+                type="number"
                 id="annualLeave"
                 name="annualLeave"
-                ref={annualLeaveRef}
-                validators={{ required, isNumber }}
-              />
-              <Errors
-                className="text-danger"
-                model=".lastname"
-                show="touched"
-                messages={{
-                  required: "Required",
-                  isNumber: "Must be a number",
-                }}
+                value={annuaLeaveInput}
+                onChange={annualLeaveInputHandler}
               />
             </Col>
-          </Row>
+          </FormGroup>
           <Button type="submit" value="submit" className="bg-primary">
             Thêm
           </Button>
-        </LocalForm>
-      </Modal>
-    </>
+        </Form>
+      </ModalBody>
+    </Modal>
   );
 };
-
-export default AddStaff;

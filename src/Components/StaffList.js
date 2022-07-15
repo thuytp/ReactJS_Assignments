@@ -47,7 +47,7 @@ function StaffList(props) {
             <span className="fa fa-plus fa-lg" />
           </Button>
         </div>
-        <Form onSubmit={handleSubmit} className="col-10 col-md-6 col-lg-5">
+        <Form onSubmit={handleSubmit} className="ml-auto ">
           <input type="text" ref={searchInputRef}></input>
           <Button type="submit" className="bg-primary">
             Tìm
