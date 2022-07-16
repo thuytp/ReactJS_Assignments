@@ -10,55 +10,139 @@ import {
   FormGroup,
   Form,
   Input,
+  FormFeedback,
 } from "reactstrap";
-import { Control, LocalForm, Errors } from "react-redux-form";
-import propTypes from "prop-types";
 
 export const AddStaff = (props) => {
-  const required = (val) => val && val.length;
-  const isNumber = (val) => !isNaN(Number(val));
+  const [values, setValues] = useState({
+    nameInput: "",
+    dobInput: "",
+    salaryInput: "",
+    startDateInput: "",
+    departmentInput: "",
+    annualLeaveInput: "",
+  });
 
-  const [nameInput, setNameInput] = useState("");
-  const [dobInput, setDobInput] = useState("");
-  const [startDateInput, setStartDateInput] = useState("");
-  const [departmentInput, setDepartmentInput] = useState("");
-  const [salaryInput, setSalaryInput] = useState("");
-  const [annuaLeaveInput, setAnnualLeaveInput] = useState("");
-
-  const nameInputHandler = (event) => {
-    setNameInput(event.target.value);
+  const changeHandler = (event) => {
+    const { name, value } = event.target;
+    setValues((prev) => ({ ...prev, [name]: value }));
   };
 
-  const dobInputHandler = (event) => {
-    setDobInput(event.target.value);
+  const [touched, setTouched] = useState({
+    nameInput: false,
+    dobInput: false,
+    salaryInput: false,
+    startDateInput: false,
+    departmentInput: false,
+    annualLeaveInput: false,
+  });
+
+  const handleBlur = (event) => {
+    setTouched((prev) => ({ ...prev, [event.name]: true }));
   };
 
-  const startDateInputHandler = (event) => {
-    setStartDateInput(event.target.value);
-  };
+  const [errors, setErrors] = useState({});
 
-  const departmentInputHandler = (event) => {
-    setDepartmentInput(event.target.value);
-  };
+  let isValid = true;
 
-  const salaryInputHandler = (event) => {
-    setSalaryInput(event.target.value);
-  };
+  const validate = (values) => {
+    let errors = {};
 
-  const annualLeaveInputHandler = (event) => {
-    setAnnualLeaveInput(event.target.value);
+    if (!values.nameInput) {
+      errors.name = "Nhập tên";
+      isValid = false;
+    }
+
+    if (!values.dobInput) {
+      errors.dob = "Nhập ngày tháng năm sinh";
+      isValid = false;
+    }
+    if (!values.startDateInput) {
+      errors.startDate = "Nhập ngày vào công ty";
+      isValid = false;
+    }
+
+    if (!values.salaryInput) {
+      errors.salary = "Nhập hệ số lương";
+      isValid = false;
+    }
+
+    if (!values.departmentInput) {
+      errors.department = "Chọn phòng ban";
+      isValid = false;
+    }
+    if (!values.annualLeaveInput) {
+      errors.annualLeave = "Nhập số ngày nghỉ còn lại";
+      isValid = false;
+    }
+
+    return errors;
+
+    // if (touched.nameInput && values.nameInput.trim().length === 0) {
+    //   setErrors((prev) => ({ ...prev, nameInput: "Nhập tên" }));
+    //   isValid = false;
+    // }
+
+    // if (touched.dobInput && values.dobInput.trim().length === 0) {
+    //   isValid = false;
+    //   setErrors((prev) => ({ ...prev, dobInput: "Nhập ngày tháng năm sinh" }));
+    // }
+
+    // if (touched.startDateInput && values.startDateInput.trim().length === 0) {
+    //   isValid = false;
+    //   setErrors((prev) => ({
+    //     ...prev,
+    //     startDateInput: "Nhập ngày vào công ty",
+    //   }));
+    // }
+    // if (touched.salaryInput && values.salaryInput.trim().length === 0) {
+    //   isValid = false;
+    //   setErrors((prev) => ({ ...prev, salaryInput: "Nhập hệ số lương" }));
+    // }
+    // if (
+    //   touched.annualLeaveInput &&
+    //   values.annualLeaveInput.trim().length === 0
+    // ) {
+    //   isValid = false;
+    //   setErrors((prev) => ({
+    //     ...prev,
+    //     annualLeaveInput: "Nhập số ngày nghỉ còn lại",
+    //   }));
+    // }
   };
 
   const addStaffHandler = (e) => {
     e.preventDefault();
-    props.onAddStaff(
-      nameInput,
-      dobInput,
-      salaryInput,
-      startDateInput,
-      departmentInput,
-      annuaLeaveInput
-    );
+    setErrors(validate(values));
+    console.log(isValid);
+    if (isValid) {
+      props.onAddStaff(
+        values.nameInput,
+        values.dobInput,
+        values.salaryInput,
+        values.startDateInput,
+        values.departmentInput,
+        values.annualLeaveInput
+      );
+
+      setValues({
+        nameInput: "",
+        dobInput: "",
+        salaryInput: "",
+        startDateInput: "",
+        departmentInput: "",
+        annualLeaveInput: "",
+      });
+
+      setErrors({
+        nameInput: "",
+        dobInput: "",
+        salaryInput: "",
+        startDateInput: "",
+        departmentInput: "",
+        annualLeaveInput: "",
+      });
+    } else return;
   };
 
   return (
@@ -75,10 +159,12 @@ export const AddStaff = (props) => {
               <Input
                 type="text"
                 id="name"
-                name="name"
-                value={nameInput}
-                onChange={nameInputHandler}
+                name="nameInput"
+                value={values.nameInput}
+                onChange={changeHandler}
+                invalid={errors.name !== undefined}
               />
+              <FormFeedback>{errors.name}</FormFeedback>
             </Col>
           </FormGroup>
           <FormGroup row>
@@ -89,11 +175,13 @@ export const AddStaff = (props) => {
               <Input
                 type="date"
                 id="dob"
-                name="dob"
+                name="dobInput"
                 placeholder="dd/mm/yyyy"
-                value={dobInput}
-                onChange={dobInputHandler}
+                value={values.dobInput}
+                onChange={changeHandler}
+                invalid={errors.dob !== undefined}
               />
+              <FormFeedback>{errors.dob}</FormFeedback>
             </Col>
           </FormGroup>
           <FormGroup row>
@@ -104,11 +192,13 @@ export const AddStaff = (props) => {
               <Input
                 type="date"
                 id="startDate"
-                name="startDate"
+                name="startDateInput"
                 placeholder="dd/mm/yyyy"
-                value={startDateInput}
-                onChange={startDateInputHandler}
+                value={values.startDateInput}
+                onChange={changeHandler}
+                invalid={errors.startDate !== undefined}
               />
+              <FormFeedback>{errors.startDate}</FormFeedback>
             </Col>
           </FormGroup>
           <FormGroup row>
@@ -118,16 +208,22 @@ export const AddStaff = (props) => {
             <Col md="9">
               <Input
                 type="select"
+                defaultValue={"Default"}
                 id="department"
-                name="department"
-                onChange={departmentInputHandler}
+                name="departmentInput"
+                onChange={changeHandler}
+                invalid={errors.startDate !== undefined}
               >
+                <option value="Default" disabled>
+                  Chọn phòng ban
+                </option>
                 <option>Sale</option>
                 <option>HR</option>
                 <option>Marketing</option>
                 <option>IT</option>
                 <option>Finance</option>
               </Input>
+              <FormFeedback>{errors.department}</FormFeedback>
             </Col>
           </FormGroup>
           <FormGroup row>
@@ -138,10 +234,12 @@ export const AddStaff = (props) => {
               <Input
                 type="number"
                 id="salaryScale"
-                name="salaryScale"
-                value={salaryInput}
-                onChange={salaryInputHandler}
+                name="salaryInput"
+                value={values.salaryInput}
+                onChange={changeHandler}
+                invalid={errors.salary !== undefined}
               />
+              <FormFeedback>{errors.salary}</FormFeedback>
             </Col>
           </FormGroup>
           <FormGroup row>
@@ -152,10 +250,12 @@ export const AddStaff = (props) => {
               <Input
                 type="number"
                 id="annualLeave"
-                name="annualLeave"
-                value={annuaLeaveInput}
-                onChange={annualLeaveInputHandler}
+                name="annualLeaveInput"
+                value={values.annualLeaveInput}
+                onChange={changeHandler}
+                invalid={errors.annualLeave !== undefined}
               />
+              <FormFeedback>{errors.annualLeave}</FormFeedback>
             </Col>
           </FormGroup>
           <Button type="submit" value="submit" className="bg-primary">

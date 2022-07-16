@@ -36,7 +36,7 @@ function App() {
       return [
         ...prevStaffList,
         {
-          id: Math.random(),
+          id: Math.floor(Math.random() * 100) + 16,
           name: staffName,
           doB: staffDob,
           salaryScale: staffSalaryScale,

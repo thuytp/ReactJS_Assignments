@@ -1,6 +1,6 @@
 import { Card, CardImg, Form, Button } from "reactstrap";
 import { Link } from "react-router-dom";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 
 const StaffName = (props) =>
   props.list.map((staff) => {
@@ -38,22 +38,23 @@ function StaffList(props) {
 
   return (
     <div className="container">
-      <div className="row">
-        <div className="col-10 col-md-6 col-lg-5">
+      <div className="row justify-content-between">
+        <div className="">
           <h2>Nhân Viên</h2>
         </div>
-        <div className="col-10 col-md-6 col-lg-2">
+        <div className=" ">
           <Button onClick={props.toggleForm}>
-            <span className="fa fa-plus fa-lg" />
+            <span className="fa fa-plus fa-lg " />
           </Button>
         </div>
-        <Form onSubmit={handleSubmit} className="ml-auto ">
-          <input type="text" ref={searchInputRef}></input>
-          <Button type="submit" className="bg-primary">
-            Tìm
-          </Button>
-        </Form>
-        <hr />
+        <div className="">
+          <Form onSubmit={handleSubmit}>
+            <input type="text" ref={searchInputRef}></input>
+            <Button type="submit" className="bg-primary">
+              Tìm
+            </Button>
+          </Form>
+        </div>
       </div>
       <div className="row">
         {" "}
